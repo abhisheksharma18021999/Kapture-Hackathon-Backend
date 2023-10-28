@@ -14,4 +14,7 @@ public interface ClientCustomerRepo extends CrudRepository<ClientCustomer, Long>
     @Query(value = " SELECT * FROM client_customer WHERE client_id = :cid ", nativeQuery = true)
     List<ClientCustomer> findCustomerByClientId(@Param("cid") long cid);
 
+    @Query(value = " SELECT * FROM client_customer WHERE email = :email limit 1", nativeQuery = true)
+    ClientCustomer getClientByEmail(@Param("email") String email);
+
 }

@@ -1,20 +1,20 @@
 package com.kapture.elk.pro.dto;
 
-
 import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class Response<T extends BaseObject> implements Serializable {
+public class Response implements Serializable {
 
     public static String SUCCESS_CODE = "success";
 
     public static String FAIL_CODE = "error";
 
-    Object additionalInfo;
+    Object data;
 
-    List<T> resultList;
+    List<Object> dataList;
 
     boolean isSuccess;
 
@@ -24,33 +24,24 @@ public class Response<T extends BaseObject> implements Serializable {
 
     int size;
 
-    public static Response<BaseObject> getFailedResponse() {
-        Response<BaseObject> response = new Response<>();
+    public static Response getFailedResponse() {
+        Response response = new Response();
         response.setStatusCode(Response.FAIL_CODE);
         response.setSuccess(false);
         return response;
     }
 
-    public static Response<BaseObject> getFailedResponse(String errorReason) {
-        Response<BaseObject> response = new Response<>();
+    public static Response getFailedResponse(String errorReason) {
+        Response response = new Response();
         response.setStatusCode(Response.FAIL_CODE);
         response.setErrorReason(errorReason);
         response.setSuccess(false);
         return response;
     }
 
-    public static Response<BaseObject> getFailedResponse(Response<BaseObject> esSearchResponse, String errorReason) {
-        if (esSearchResponse == null) {
-            esSearchResponse = getFailedResponse();
-        }
-        esSearchResponse.setStatusCode(Response.FAIL_CODE);
-        esSearchResponse.setErrorReason(errorReason);
-        esSearchResponse.setSuccess(false);
-        return esSearchResponse;
-    }
 
-    public static Response<BaseObject> getSuccessResponse() {
-        Response<BaseObject> esSearchResponse = new Response<>();
+    public static Response getSuccessResponse() {
+        Response esSearchResponse = new Response();
         esSearchResponse.setStatusCode(Response.SUCCESS_CODE);
         esSearchResponse.setSuccess(true);
         return esSearchResponse;

@@ -1,10 +1,14 @@
 package com.kapture.elk.pro.controller;
 
 import com.kapture.elk.pro.dto.Events;
+import com.kapture.elk.pro.dto.Response;
 import com.kapture.elk.pro.repository.EventRepo;
 import com.kapture.elk.pro.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,35 +22,89 @@ public class EventController {
     @Autowired
     EventService eventService;
 
-    @GetMapping("/getAll")
-    public List<Events> getAll() {
-        return (List<Events>) eventRepo.findAll();
+    @GetMapping("/getall")
+    public Response getAll() {
+        Response response = Response.getFailedResponse();
+        try {
+            List<Events> events = (List<Events>) eventRepo.findAll();
+            if (!CollectionUtils.isEmpty(events)) {
+                response = Response.getSuccessResponse();
+                response.setDataList(Collections.singletonList(events));
+            }
+        } catch (Exception e) {
+            response.setErrorReason(e.getMessage());
+        }
+        return response;
     }
 
     @GetMapping("/getid")
-    public Events getById(@RequestParam long id) {
-        Optional<Events> optionalJourney = eventRepo.findById(id);
-        return optionalJourney.get();
+    public Response getById(@RequestParam long id) {
+        Response response = Response.getFailedResponse();
+        try {
+            Optional<Events> events = eventRepo.findById(id);
+            if (events.isPresent()) {
+                response = Response.getSuccessResponse();
+                response.setData(events.get());
+            }
+        } catch (Exception e) {
+            response.setErrorReason(e.getMessage());
+        }
+        return response;
     }
 
     @GetMapping("/getbyclientid")
-    public List<Events> getByClientId(@RequestParam Long id) {
-        return eventRepo.findEventsByClientId(id);
+    public Response getByClientId(@RequestParam Long id) {
+        Response response = Response.getFailedResponse();
+        try {
+            List<Events> events = eventRepo.findEventsByClientId(id);
+            if (!CollectionUtils.isEmpty(events)) {
+                response = Response.getSuccessResponse();
+                response.setDataList(Collections.singletonList(events));
+            }
+        } catch (Exception e) {
+            response.setErrorReason(e.getMessage());
+        }
+        return response;
     }
 
     @GetMapping("/getbycustomerid")
-    public List<Events> getByCustomerId(@RequestParam Long id) {
-        return eventRepo.findEventsByCustomerId(id);
+    public Response getByCustomerId(@RequestParam Long id) {
+        Response response = Response.getFailedResponse();
+        try {
+            List<Events> events = eventRepo.findEventsByCustomerId(id);
+            if (!CollectionUtils.isEmpty(events)) {
+                response = Response.getSuccessResponse();
+                response.setDataList(Collections.singletonList(events));
+            }
+        } catch (Exception e) {
+            response.setErrorReason(e.getMessage());
+        }
+        return response;
     }
 
     @PostMapping("/save")
-    public Events save(@RequestBody Events events) {
-        return eventRepo.save(events);
+    public Response save(@RequestBody Events events) {
+        Response response = Response.getFailedResponse();
+        try {
+            Events event = eventRepo.save(events);
+            response = Response.getSuccessResponse();
+            response.setDataList(Collections.singletonList(events));
+        } catch (Exception e) {
+            response.setErrorReason(e.getMessage());
+        }
+        return response;
     }
 
     @DeleteMapping("/delete")
-    public void delete(@RequestParam Long id) {
-        eventRepo.deleteById(id);
+    public Response delete(@RequestParam Long id) {
+        Response response = Response.getFailedResponse();
+        try {
+            eventRepo.deleteById(id);
+            response = Response.getSuccessResponse();
+        } catch (Exception e) {
+            response.setErrorReason(e.getMessage());
+        }
+        return response;
     }
 
 }

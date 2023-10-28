@@ -1,10 +1,13 @@
 package com.kapture.elk.pro.dto;
 
 import lombok.Data;
+import lombok.ToString;
+
 import javax.persistence.*;
 
 @Table
 @Entity(name = "client")
+@ToString
 public @Data
 class Client extends BaseObject {
 
