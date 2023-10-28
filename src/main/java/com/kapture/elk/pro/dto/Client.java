@@ -21,6 +21,9 @@ class Client extends BaseObject {
     @Column(name = "plan_name")
     String planName;
 
+    @Column(name = "email")
+    String email;
+
     @Column(name = "meta_data")
     String metaData;
 
