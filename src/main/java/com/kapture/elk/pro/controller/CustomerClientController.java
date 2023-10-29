@@ -117,7 +117,9 @@ public class CustomerClientController {
                     && clientCustomer.getPassword().equalsIgnoreCase(password)) {
                 // save event
                 eventService.saveEvent(Constants.SIGN_IN_EVENT, clientCustomer);
-                return Response.getSuccessResponse();
+                response = Response.getSuccessResponse();
+                response.setData(clientCustomer);
+                return response;
             }
             if (clientCustomer != null) {
                 // save event
