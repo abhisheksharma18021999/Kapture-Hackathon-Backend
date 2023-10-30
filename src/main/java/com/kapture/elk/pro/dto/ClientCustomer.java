@@ -2,6 +2,7 @@ package com.kapture.elk.pro.dto;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table
 @Entity(name = "client_customer")
@@ -28,5 +29,11 @@ public @Data class ClientCustomer extends BaseObject {
 
     @Column(name = "address")
     String address;
+
+    @Column(name = "ip")
+    String ip;
+
+    @Column(name = "added_date")
+    Date addedDate;
 
 }
